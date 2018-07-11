@@ -1,0 +1,10 @@
+{
+	"extensionName": {
+		"message": "Opinion Storm",
+		"description": "Name of the extension."
+	},
+	"extensionDescription": {
+		"message": "Opinion Storm description",
+		"description": "Description of the extension."
+	}
+}
