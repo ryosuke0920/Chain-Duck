@@ -1,0 +1,17 @@
+* {
+	padding:0;
+	mering:0;
+	border:none;
+	font-size: 16px;
+	font-family: "SF Pro JP","SF Pro Display","SF Pro Icons","Hiragino Kaku Gothic Pro","ヒラギノ角ゴ Pro W3","メイリオ","Meiryo","ＭＳ Ｐゴシック","Helvetica Neue","Helvetica","Arial",sans-serif;
+}
+h1, section {
+	padding: 5px;
+}
+h1 {
+	font-size: 20px;
+}
+section, select {
+	border: solid 1px gray;
+	border-radius: 3px;
+}
