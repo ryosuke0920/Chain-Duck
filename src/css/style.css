@@ -1,16 +1,18 @@
 * {
-	padding:0;
-	mering:0;
-	border:none;
-	font-size: 16px;
+	padding: 0;
+	margin: 0;
+	border: none;
+	font-size: 1em;
 	font-family: "SF Pro JP","SF Pro Display","SF Pro Icons","Hiragino Kaku Gothic Pro","ヒラギノ角ゴ Pro W3","メイリオ","Meiryo","ＭＳ Ｐゴシック","Helvetica Neue","Helvetica","Arial",sans-serif;
-	background-color: #F0F0F5;
 }
-h1, section, button, select {
-	padding: .2rem;
+body {
+	background-color: #f9f9fa;
 }
 h1 {
-	font-size: 2rem;
+	font-size: 1.2em;
+}
+button, select, p {
+	padding: 0.2rem 1rem;
 }
 button, select {
 	border: solid .1rem #007bff;
@@ -24,6 +26,15 @@ button {
 button:hover {
 	background-color: #0069d9;
 }
+.box {
+	margin-bottom: 0.5em;
+}
 .hide {
 	display: none;
+}
+#header {
+	background-color: white;
+}
+#header, #menu, #main {
+	padding: 0.1em 0.5em;
 }
