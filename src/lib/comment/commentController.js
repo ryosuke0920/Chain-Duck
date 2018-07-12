@@ -1,7 +1,7 @@
 "use strict";
-import controller from "/lib/controller.js";
-import commentModel from "/lib/commentModel.js";
-import commentView from "/lib/commentView.js";
+import controller from "/lib/base/controller.js";
+import commentModel from "/lib/comment/commentModel.js";
+import commentView from "/lib/comment/commentView.js";
 /*
 backgroundとやり取りするインタフェースを提供する。
 viewの呼び出しに応じて制御結果を返す。

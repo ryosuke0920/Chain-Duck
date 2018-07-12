@@ -1,5 +1,5 @@
 "use strict";
-import model from "/lib/model.js";
+import model from "/lib/base/model.js";
 /*
 ビジネスロジック全般
 もっぱらviewかcontrollerに支配される。

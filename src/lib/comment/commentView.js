@@ -1,6 +1,6 @@
 "use strict";
-import view from "/lib/view.js";
-import commentModel from "/lib/commentModel.js";
+import view from "/lib/base/view.js";
+import commentModel from "/lib/comment/commentModel.js";
 /*
 UI関連
 イベントはコントローラーを呼び出す。
@@ -25,8 +25,11 @@ export default class commentView extends view
 			this.makeTabSelector.bind(this)
 		).then(()=>{
 			this.tabSelector.addEventListener("change", this.changedTabSelector);
-			this.showBody();
-		});
+		}).then(
+			this.showBody.bind(this)
+		).then(
+			this.loadCurrentComment.bind(this)
+		);
 	}
 	showBody(){
 		this.show(this.body);
@@ -71,5 +74,8 @@ export default class commentView extends view
 		this.each(list,(node)=>{
 			node.remove();
 		});
+	}
+	loadCurrentComment(){
+
 	}
 }

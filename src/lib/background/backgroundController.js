@@ -1,5 +1,5 @@
 "use strict";
-import controller from "/lib/controller.js";
+import controller from "/lib/base/controller.js";
 
 const DEFAULT_COMMENT_WINDOW_WIDHT = 250 * 3;
 
