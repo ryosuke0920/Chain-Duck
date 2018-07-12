@@ -48,7 +48,6 @@
 		"browser_style": false
 	},
 	"permissions": [
-		"activeTab",
 		"<all_urls>",
 		"tabs"
 	],

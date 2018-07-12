@@ -5,6 +5,5 @@ export default class controller extends base
 {
 	constructor(){
 		super();
-		console.log("controller constructor");
 	}
 }

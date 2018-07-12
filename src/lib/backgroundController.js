@@ -7,10 +7,8 @@ export default class backgroundController extends controller
 {
 	constructor(){
 		super();
-		console.log("backgroundController constructor");
 	}
 	init(){
-		console.log("init");
 		browser.browserAction.onClicked.addListener(this.browserActionBehavior.bind(this));
 	}
 	browserActionBehavior(e){

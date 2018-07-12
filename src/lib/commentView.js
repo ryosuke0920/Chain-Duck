@@ -8,19 +8,58 @@ UI関連
 */
 export default class commentView extends view
 {
-	constructor(controller, model){
+	constructor(){
 		super();
-		console.log("commentView constructor");
+	}
+	init(controller, model){
 		this.commentController = controller;
 		this.commentModel = model;
-	}
-	init(){
-		console.log("commentView init");
-		this.makeTabSelector();
+		this.tabSelector = document.querySelector("#tabSelector");
+		Promise.resolve().then(
+			this.makeTabSelector.bind(this)
+		).then(()=>{
+			this.tabSelector.addEventListener("change", this.changedTabSelector);
+		});
 	}
 	makeTabSelector(){
-		this.commentModel.eachTabs((tab,i,list)=>{
-			console.log(tab,i,list);
+		this.removeChildren(this.tabSelector);
+		return this.commentModel.eachTabs((tab,index,list)=>{
+			this.tabSelector.appendChild(this.makeTabSelectorOption(tab));
+		});
+	}
+	makeTabSelectorOption(tab){
+		let option = document.createElement("option");
+		option.innerText = tab.title||tab.url;
+		option.value = tab.id;
+		option.selected = tab.active;
+		return option;
+	}
+	changedTabSelector(e){
+		console.log(e);
+	}
+	activateTab(tabId){
+		this.selectTabSelectorOption(tabId)
+		console.log("update comment too.");
+	}
+	selectTabSelectorOption(tabId){
+		let list = this.tabSelector.querySelectorAll("option");
+		this.each(list,(node)=>{
+			if( node.value == tabId ){
+				node.selected = true;
+			}
+			else {
+				node.selected = false;
+			}
+		});
+	}
+	removeTab(tabId){
+		this.removeTabSelectorOption(tabId)
+		console.log("remove comment cache? too.");
+	}
+	removeTabSelectorOption(tabId){
+		let list = this.tabSelector.querySelectorAll("option[value=\""+tabId+"\"]");
+		this.each(list,(node)=>{
+			node.remove();
 		});
 	}
 }

@@ -5,6 +5,8 @@ export default class view extends base
 {
 	constructor(){
 		super();
-		console.log("view constructor");
+	}
+	removeChildren(node){
+		while(node.lastChild) node.removeChild(node.lastChild);
 	}
 }
