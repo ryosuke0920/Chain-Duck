@@ -15,4 +15,12 @@ export default class view extends base
 	hide(node){
 		node.classList.add("hide");
 	}
+	applyI18n(list){
+		this.each(list,(obj)=>{
+			let list = document.querySelectorAll(obj.selector);
+			this.each(list,(node)=>{
+				node[obj.property] = browser.i18n.getMessage( obj.key );
+			});
+		});
+	}
 }

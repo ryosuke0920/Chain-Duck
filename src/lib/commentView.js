@@ -16,6 +16,11 @@ export default class commentView extends view
 		this.commentModel = model;
 		this.body = document.querySelector("body");
 		this.tabSelector = document.querySelector("#tabSelector");
+		this.applyI18n([
+			{ "selector": ".commentPaneName", "key": "commentPaneName", "property": "innerText" },
+			{ "selector": "#updateButton", "key": "updateButton", "property": "innerText" },
+			{ "selector": "#endOfUpdateTimeLabel", "key": "endOfUpdateTimeLabel", "property": "innerText" }
+		]);
 		Promise.resolve().then(
 			this.makeTabSelector.bind(this)
 		).then(()=>{
