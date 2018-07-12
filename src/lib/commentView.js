@@ -14,12 +14,17 @@ export default class commentView extends view
 	init(controller, model){
 		this.commentController = controller;
 		this.commentModel = model;
+		this.body = document.querySelector("body");
 		this.tabSelector = document.querySelector("#tabSelector");
 		Promise.resolve().then(
 			this.makeTabSelector.bind(this)
 		).then(()=>{
 			this.tabSelector.addEventListener("change", this.changedTabSelector);
+			this.showBody();
 		});
+	}
+	showBody(){
+		this.show(this.body);
 	}
 	makeTabSelector(){
 		this.removeChildren(this.tabSelector);

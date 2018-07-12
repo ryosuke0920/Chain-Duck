@@ -9,4 +9,10 @@ export default class view extends base
 	removeChildren(node){
 		while(node.lastChild) node.removeChild(node.lastChild);
 	}
+	show(node){
+		node.classList.remove("hide");
+	}
+	hide(node){
+		node.classList.add("hide");
+	}
 }
