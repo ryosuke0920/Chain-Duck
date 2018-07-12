@@ -28,7 +28,7 @@ export default class commentView extends view
 		}).then(
 			this.showBody.bind(this)
 		).then(
-			this.loadCurrentComment.bind(this)
+			this.loadCurrentWindowTabComment.bind(this)
 		);
 	}
 	showBody(){
@@ -36,7 +36,7 @@ export default class commentView extends view
 	}
 	makeTabSelector(){
 		this.removeChildren(this.tabSelector);
-		return this.commentModel.eachTabs((tab,index,list)=>{
+		return this.commentModel.eachCurrentWindowTabs((tab,index,list)=>{
 			this.tabSelector.appendChild(this.makeTabSelectorOption(tab));
 		});
 	}
@@ -75,7 +75,14 @@ export default class commentView extends view
 			node.remove();
 		});
 	}
-	loadCurrentComment(){
-
+	loadCurrentWindowTabComment(){
+		return this.commentModel.loadCurrentWindowTabComment().then(
+			(list)=>{
+				console.log(list);
+				return this.commentModel.each(list, (obj,index,list)=>{
+					console.log(obj);
+				});
+			}
+		);
 	}
 }
