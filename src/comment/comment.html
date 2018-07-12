@@ -8,24 +8,25 @@
 	<title>Comment</title>
 </head>
 <body class="hide">
-	<h1>Comment</h1>
-	<nav id="menu">
+	<header id="header" class="box">
+		<h1><span class="commentPaneName">commentPaneName</span></h1>
+	</header>
+	<nav id="menu" class="box">
 		<div>
-			<button type="button" id="reloadButton">htmlReloadButton</button>
+			<button type="button" id="updateButton">updateButton</button>
 			<select id="tabSelector">
-				<option>http://example.com/</option>
-				<option>http://example.com/</option>
 				<option>http://example.com/</option>
 			</select>
 		</div>
-		<div>
-			<label><input class="serivceName" type="checkbox" value="twitter" checked readonly> twitter</label>
+		<p><span id="endOfUpdateTimeLabel">endOfUpdateTimeLabel</span>：<span id="endOfUpdateTime">endOfUpdateTime</span></p>
+		<div id="serviceSelector">
+			<div><label><input class="serivce" type="checkbox" value="twitter" checked readonly> twitter</label></div>
+			<div><label><input class="serivce" type="checkbox" value="reddit" checked readonly> reddit</label></div>
+			<div><label><input class="serivce" type="checkbox" value="facebook" checked readonly> facebook</label></div>
+			<div><label><input class="serivce" type="checkbox" value="Google+" checked readonly> Google+</label></div>
 		</div>
 	</nav>
-	<article id="main">
-		<header>
-			<h1>htmlExtensionName htmlCommentList</h1>
-		</header>
+	<article id="main" class="box">
 		<div id="commentWrapper">
 			<section class="commentBox">
 				<div class="user">username...</div>
