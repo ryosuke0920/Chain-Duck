@@ -1,4 +1,5 @@
 "use strict";
+import * as C from "/etc/const.js";
 import appView from "/lib/app/appView.js";
 import commentModel from "/lib/comment/commentModel.js";
 export default class commentView extends appView
@@ -6,9 +7,54 @@ export default class commentView extends appView
 	constructor(){
 		super();
 	}
-	init(controller, model){
-		this.commentController = controller;
-		this.commentModel = model;
+	init(){}
+	setCommentModel(obj){
+		this.commentModel = obj;
+	}
+	getCommentModel(){
+		return this.commentModel;
+	}
+	setWindow(w){
+		this.window = w;
+	}
+	getWindow(){
+		return this.window;
+	}
+	openWindow(url){
+		let win = this.getWindow();
+		console.log(win);
+		if( !win ){
+			let p = browser.windows.create({
+				"url": C.TWITTER_URL+url,
+				"type": "popup"
+			});
+			return p.then( this.onOpenWindow.bind(this) );
+		}
+		/*
+		let p = browser.tabs.update({
+			win.id,
+			"url": C.TWITTER_URL+url
+		});
+		return p.then( this.onUpdateWindow.bind(this) );
+		*/
+	}
+	onOpenWindow(win){
+		console.log(win);
+		this.setWindow(win);
+	}
+	onUpdateWindow(win){
+		console.log(win);
+		this.setWindow(win);
+	}
+	removeWindow(id){
+		console.log(id);
+		let win = this.getWindow();
+		if(!win) return;
+		console.log(win.id);
+		if( win.id == id ){
+			console.log("Set window undefined.");
+			this.setWindow();
+		}
 	}
 }
 /*

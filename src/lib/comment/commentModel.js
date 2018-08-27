@@ -4,7 +4,19 @@ export default class commentModel extends appModel
 {
 	constructor(){
 		super();
-		console.log("hello");
+	}
+	init(){}
+	getActiveURL(){
+		let p = browser.tabs.query({
+			"active": true,
+			"currentWindow": true
+		});
+		return p.then( this.onGetCurrentWindowTab.bind(this) );
+	}
+	onGetCurrentWindowTab(e){
+		if(e.length<1) throw new Error("faild getActiveURL.");
+		let activeTab = e[0];
+		return activeTab.url;
 	}
 }
 

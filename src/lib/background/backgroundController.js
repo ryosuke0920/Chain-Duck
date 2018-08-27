@@ -1,8 +1,7 @@
 "use strict";
+import * as C from "/etc/const.js";
 import appController from "/lib/app/appController.js";
-
-const DEFAULT_COMMENT_WINDOW_WIDHT = 250 * 3;
-
+import commentController from "/lib/comment/commentController.js";
 export default class backgroundController extends appController
 {
 	constructor(){
@@ -10,8 +9,16 @@ export default class backgroundController extends appController
 	}
 	init(){
 		browser.browserAction.onClicked.addListener(this.browserActionBehavior.bind(this));
+		this.setCommentConstroller(new commentController());
+		this.getCommentConstroller().init();
+	}
+	setCommentConstroller(obj){
+		this.commentController=obj;
+	}
+	getCommentConstroller(){
+		return this.commentController;
 	}
 	browserActionBehavior(e){
-		let p = browser.sidebarAction.open();
+		this.getCommentConstroller().openWindow();
 	}
 }

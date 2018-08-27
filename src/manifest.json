@@ -21,7 +21,9 @@
 	},
 	"content_scripts": [
 		{
-			"matches": ["*://*/*"],
+			"matches": [
+				"https://twitter.com/*"
+			],
 			"js": [
 				"lib/content/content.js"
 			]
@@ -36,22 +38,10 @@
 		},
 		"default_title": "__MSG_extensionName__"
 	},
-	"sidebar_action": {
-		"default_title": "__MSG_extensionName__",
-		"default_panel": "lib/comment/comment.html",
-		"default_icon": {
-			"128": "image/icon128.jpg",
-			"64": "image/icon64.jpg",
-			"48": "image/icon48.jpg",
-			"16": "image/icon16.jpg"
-		},
-		"browser_style": false
-	},
 	"permissions": [
 		"https://twitter.com/*",
 		"tabs"
 	],
-	"content_security_policy": "script-src 'self' https://twitter.com; object-src 'self' https://twitter.com",
 	"applications": {
 		"gecko": {
 			"strict_min_version": "60.0"

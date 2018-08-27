@@ -8,11 +8,39 @@ export default class commentController extends appController
 		super();
 	}
 	init(){
-		this.commentModel = new commentModel();
-		this.commentView = new commentView(this, this.commentModel);
-		this.commentView.init(this, this.commentModel);
+		this.setCommentModel( new commentModel() );
+		this.getCommentModel().init();
+		this.setCommentView( new commentView() );
+		this.getCommentView().init();
+		browser.windows.onRemoved.addListener( this.onRemovedWindow.bind(this) );
+	}
+	setCommentModel(obj){
+		this.commentModel = obj;
+	}
+	getCommentModel(obj){
+		return this.commentModel;
+	}
+	setCommentView(obj){
+		this.commentView = obj;
+	}
+	getCommentView(obj){
+		return this.commentView;
+	}
+	openWindow(){
+		let model = this.getCommentModel();
+		let p = model.getActiveURL();
+		return p.then( this.onGetActiveURL.bind(this) ).catch( (e)=>{ console.error(e); });
+	}
+	onGetActiveURL(url){
+		let view = this.getCommentView();
+		return view.openWindow(url);
+	}
+	onRemovedWindow(id){
+		let view = this.getCommentView();
+		return view.removeWindow(id);
 	}
 }
+
 /*
 		browser.tabs.onActivated.addListener( this.avtivatedTab.bind(this) )
 		browser.tabs.onMoved.addListener( this.movedTab.bind(this) )
