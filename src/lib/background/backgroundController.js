@@ -1,9 +1,9 @@
 "use strict";
-import controller from "/lib/base/controller.js";
+import appController from "/lib/app/appController.js";
 
 const DEFAULT_COMMENT_WINDOW_WIDHT = 250 * 3;
 
-export default class backgroundController extends controller
+export default class backgroundController extends appController
 {
 	constructor(){
 		super();

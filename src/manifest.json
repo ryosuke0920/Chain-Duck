@@ -48,9 +48,10 @@
 		"browser_style": false
 	},
 	"permissions": [
-		"<all_urls>",
+		"https://twitter.com/*",
 		"tabs"
 	],
+	"content_security_policy": "script-src 'self' https://twitter.com; object-src 'self' https://twitter.com",
 	"applications": {
 		"gecko": {
 			"strict_min_version": "60.0"

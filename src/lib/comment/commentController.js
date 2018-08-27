@@ -1,13 +1,8 @@
 "use strict";
-import controller from "/lib/base/controller.js";
+import appController from "/lib/app/appController.js";
 import commentModel from "/lib/comment/commentModel.js";
 import commentView from "/lib/comment/commentView.js";
-/*
-backgroundとやり取りするインタフェースを提供する。
-viewの呼び出しに応じて制御結果を返す。
-modelを使用して分岐を明瞭にする。
-*/
-export default class commentController extends controller
+export default class commentController extends appController
 {
 	constructor(){
 		super();
@@ -16,6 +11,9 @@ export default class commentController extends controller
 		this.commentModel = new commentModel();
 		this.commentView = new commentView(this, this.commentModel);
 		this.commentView.init(this, this.commentModel);
+	}
+}
+/*
 		browser.tabs.onActivated.addListener( this.avtivatedTab.bind(this) )
 		browser.tabs.onMoved.addListener( this.movedTab.bind(this) )
 		browser.tabs.onCreated.addListener( this.createdTab.bind(this) );
@@ -23,7 +21,6 @@ export default class commentController extends controller
 		browser.tabs.onAttached.addListener( this.attachedTab.bind(this) )
 		browser.tabs.onDetached.addListener( this.detachedTab.bind(this) )
 		browser.tabs.onUpdated.addListener( this.updatedTab.bind(this) )
-	}
 	avtivatedTab(e){
 		console.log("avtivatedTab");
 		console.log(e);
@@ -57,6 +54,4 @@ export default class commentController extends controller
 	updatedTab(tabId){
 		console.log("updatedTab");
 		console.log(tabId);
-		/* 指定ページの更新のみ */
-	}
-}
+*/

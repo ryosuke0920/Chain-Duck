@@ -1,12 +1,7 @@
 "use strict";
-import view from "/lib/base/view.js";
+import appView from "/lib/app/appView.js";
 import commentModel from "/lib/comment/commentModel.js";
-/*
-UI関連
-イベントはコントローラーを呼び出す。
-必要があればmodelから値を取り出して、UIに反映する。
-*/
-export default class commentView extends view
+export default class commentView extends appView
 {
 	constructor(){
 		super();
@@ -14,6 +9,9 @@ export default class commentView extends view
 	init(controller, model){
 		this.commentController = controller;
 		this.commentModel = model;
+	}
+}
+/*
 		this.body = document.querySelector("body");
 		this.tabSelector = document.querySelector("#tabSelector");
 		this.applyI18n([
@@ -86,3 +84,4 @@ export default class commentView extends view
 		);
 	}
 }
+*/
