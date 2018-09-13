@@ -7,127 +7,100 @@ export default class commentView extends appView
 	constructor(){
 		super();
 	}
-	init(){}
+	init(){
+		this.onCloseEvent = [];
+		browser.windows.onRemoved.addListener( this.onRemoveWindow.bind(this) ) ;
+	}
 	setCommentModel(obj){
 		this.commentModel = obj;
 	}
 	getCommentModel(){
 		return this.commentModel;
 	}
-	setWindow(w){
-		this.window = w;
+	setWindow(win){
+		this.window = win;
 	}
 	getWindow(){
 		return this.window;
 	}
-	openWindow(url){
+	hasWindow(){
+		return !!this.getWindow();
+	}
+	isSameWindow(windowId, tabId){
+		if(!this.hasWindow()) return false;
 		let win = this.getWindow();
-		console.log(win);
-		if( !win ){
-			let p = browser.windows.create({
-				"url": C.TWITTER_URL+url,
-				"type": "popup"
-			});
-			return p.then( this.onOpenWindow.bind(this) );
-		}
-		/*
-		let p = browser.tabs.update({
-			win.id,
-			"url": C.TWITTER_URL+url
+		if(windowId != win.id) return false;
+		if(tabId != win.tabs[0].id) return false;
+		return true;
+	}
+	setURL(url){
+		this.url = url;
+	}
+	getURL(){
+		return this.url;
+	}
+	isSameURL(url){
+		return this.getURL() == url;
+	}
+	addOnCloseEventListener(callback){
+		this.onCloseEvent.push(callback);
+	}
+	removeOnCloseEventListener(callback){
+		console.log("removeOnCloseEventListener");
+		console.log(this.onCloseEvent);
+		this.onCloseEvent = this.onCloseEvent.filter( (e)=>{ return e != callback} );
+		console.log(this.onCloseEvent);
+	}
+	getOnCloseEventListener(){
+		return this.onCloseEvent;
+	}
+	openWindow(url){
+		url = C.TWITTER_URL + encodeURI(url);
+		console.log(url);
+		this.setURL(url);
+		let p = browser.windows.create({
+			"url": url,
+			"type": "popup" /* https://bugzilla.mozilla.org/show_bug.cgi?id=1380184 */
 		});
-		return p.then( this.onUpdateWindow.bind(this) );
-		*/
+		return p.then( this.onOpenWindow.bind(this) );
 	}
 	onOpenWindow(win){
 		console.log(win);
 		this.setWindow(win);
 	}
-	onUpdateWindow(win){
-		console.log(win);
-		this.setWindow(win);
-	}
-	removeWindow(id){
-		console.log(id);
+	onRemoveWindow(windowId){
+		console.log("onRemoveWindow");
+		console.log(windowId);
+		if( !this.hasWindow() ) return;
 		let win = this.getWindow();
-		if(!win) return;
 		console.log(win.id);
-		if( win.id == id ){
+		if( win.id == windowId ){
 			console.log("Set window undefined.");
 			this.setWindow();
+			this.each( this.getOnCloseEventListener(), (callback)=>{
+				callback(windowId);
+			});
 		}
 	}
-}
-/*
-		this.body = document.querySelector("body");
-		this.tabSelector = document.querySelector("#tabSelector");
-		this.applyI18n([
-			{ "selector": ".commentPaneName", "key": "commentPaneName", "property": "innerText" },
-			{ "selector": "#updateButton", "key": "updateButton", "property": "innerText" },
-			{ "selector": "#endOfUpdateTimeLabel", "key": "endOfUpdateTimeLabel", "property": "innerText" }
-		]);
-		Promise.resolve().then(
-			this.makeTabSelector.bind(this)
-		).then(()=>{
-			this.tabSelector.addEventListener("change", this.changedTabSelector);
-		}).then(
-			this.showBody.bind(this)
-		).then(
-			this.loadCurrentWindowTabComment.bind(this)
+	updateWindow(url){
+		console.log("updateWindow");
+		url = C.TWITTER_URL + encodeURI(url);
+		this.setURL(url);
+		console.log(url);
+		let win = this.getWindow();
+		console.log(win);
+		let p = browser.tabs.query({
+			"windowId": win.id
+		});
+		return p.then( this.onGotTabs.bind(this) );
+	}
+	onGotTabs(tabs){
+		console.log(tabs);
+		let tabId = tabs[0].id;
+		let p = browser.tabs.update(
+			tabId,
+			{ "url": this.getURL() }
 		);
-	}
-	showBody(){
-		this.show(this.body);
-	}
-	makeTabSelector(){
-		this.removeChildren(this.tabSelector);
-		return this.commentModel.eachCurrentWindowTabs((tab,index,list)=>{
-			this.tabSelector.appendChild(this.makeTabSelectorOption(tab));
-		});
-	}
-	makeTabSelectorOption(tab){
-		let option = document.createElement("option");
-		option.innerText = tab.title||tab.url;
-		option.value = tab.id;
-		option.selected = tab.active;
-		return option;
-	}
-	changedTabSelector(e){
-		console.log(e);
-	}
-	activateTab(tabId){
-		this.selectTabSelectorOption(tabId)
-		console.log("update comment too.");
-	}
-	selectTabSelectorOption(tabId){
-		let list = this.tabSelector.querySelectorAll("option");
-		this.each(list,(node)=>{
-			if( node.value == tabId ){
-				node.selected = true;
-			}
-			else {
-				node.selected = false;
-			}
-		});
-	}
-	removeTab(tabId){
-		this.removeTabSelectorOption(tabId)
-		console.log("remove comment cache? too.");
-	}
-	removeTabSelectorOption(tabId){
-		let list = this.tabSelector.querySelectorAll("option[value=\""+tabId+"\"]");
-		this.each(list,(node)=>{
-			node.remove();
-		});
-	}
-	loadCurrentWindowTabComment(){
-		return this.commentModel.loadCurrentWindowTabComment().then(
-			(list)=>{
-				console.log(list);
-				return this.commentModel.each(list, (obj,index,list)=>{
-					console.log(obj);
-				});
-			}
-		);
+		return p.catch( (e)=>{ console.error(e); } );
 	}
 }
-*/

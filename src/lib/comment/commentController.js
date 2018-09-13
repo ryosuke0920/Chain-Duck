@@ -12,7 +12,6 @@ export default class commentController extends appController
 		this.getCommentModel().init();
 		this.setCommentView( new commentView() );
 		this.getCommentView().init();
-		browser.windows.onRemoved.addListener( this.onRemovedWindow.bind(this) );
 	}
 	setCommentModel(obj){
 		this.commentModel = obj;
@@ -27,59 +26,69 @@ export default class commentController extends appController
 		return this.commentView;
 	}
 	openWindow(){
+		console.log("openWindow");
 		let model = this.getCommentModel();
 		let p = model.getActiveURL();
-		return p.then( this.onGetActiveURL.bind(this) ).catch( (e)=>{ console.error(e); });
+		return p.then( this.openOrUpdateWindow.bind(this) ).catch( (e)=>{ console.error(e); });
 	}
-	onGetActiveURL(url){
+	openOrUpdateWindow(url){
+		console.log("openOrUpdateWindow");
 		let view = this.getCommentView();
-		return view.openWindow(url);
+		if(view.hasWindow()){
+			return view.updateWindow(url);
+		}
+		return view.openWindow(url).then( this.onOpenedWindow.bind(this) );
 	}
-	onRemovedWindow(id){
+	onOpenedWindow(){
+		console.log("onOpenedWindow");
+		browser.tabs.onActivated.addListener( this.onActivated.bind(this) );
+		browser.tabs.onUpdated.addListener( this.onUpdated.bind(this) );
 		let view = this.getCommentView();
-		return view.removeWindow(id);
+		view.addOnCloseEventListener( this.onClosedWindow.bind(this) );
+	}
+	onClosedWindow(){
+		console.log("onClosedWindow");
+		browser.tabs.onActivated.removeListener( this.onActivated.bind(this) );
+		browser.tabs.onUpdated.removeListener( this.onUpdated.bind(this) );
+		let view = this.getCommentView();
+		view.removeOnCloseEventListener( this.onClosedWindow.bind(this) );
+	}
+	onRemovedWindow(windowId){
+		console.log("onRemovedWindow windowId="+windowId);
+		let view = this.getCommentView();
+		return view.removeWindow(windowId);
+	}
+	onActivated(activeInfo){
+		console.log("onActivated");
+		console.log(activeInfo);
+		let view = this.getCommentView();
+		if( !view.hasWindow()) return;
+		if( view.isSameWindow(activeInfo.windowId, activeInfo.tabId) ) return;
+		let model = this.getCommentModel();
+		let p = model.getActiveURL();
+		return p.then( this.updateWindow.bind(this) ).catch( (e)=>{ console.error(e); });
+	}
+	updateWindow(url){
+		console.log("updateWindow");
+		let view = this.getCommentView();
+		if( !view.hasWindow()) return;
+		let model = this.getCommentModel();
+		url = model.convertURL(url);
+		if( view.isSameURL(url) ) return;
+		return view.updateWindow(url);
+	}
+	onUpdated(tabId, changeInfo, tab){
+		console.log("onUpdated changeInfo.status="+changeInfo.status+", url="+changeInfo.url);
+		//console.log(tabId);
+		//console.log(changeInfo);
+		//console.log(tab);
+		if( !changeInfo.hasOwnProperty("url") ) return;
+		let view = this.getCommentView();
+		if( !view.hasWindow() ) return;
+		if( view.isSameWindow(tab.windowId, tabId) ) return;
+		let model = this.getCommentModel();
+		let url = model.convertURL(changeInfo.url);
+		if( view.isSameURL(url) ) return;
+		return view.updateWindow( model.convertURL(url) );
 	}
 }
-
-/*
-		browser.tabs.onActivated.addListener( this.avtivatedTab.bind(this) )
-		browser.tabs.onMoved.addListener( this.movedTab.bind(this) )
-		browser.tabs.onCreated.addListener( this.createdTab.bind(this) );
-		browser.tabs.onRemoved.addListener( this.removedTab.bind(this) );
-		browser.tabs.onAttached.addListener( this.attachedTab.bind(this) )
-		browser.tabs.onDetached.addListener( this.detachedTab.bind(this) )
-		browser.tabs.onUpdated.addListener( this.updatedTab.bind(this) )
-	avtivatedTab(e){
-		console.log("avtivatedTab");
-		console.log(e);
-		this.commentView.activateTab(e.tabId)
-	}
-	movedTab(tabId){
-		console.log("movedTab");
-		console.log(tabId);
-		this.commentView.makeTabSelector();
-	}
-	createdTab(e){
-		console.log("createdTab");
-		console.log(e);
-		this.commentView.makeTabSelector();
-	}
-	removedTab(tabId){
-		console.log("removedTab");
-		console.log(tabId);
-		this.commentView.removeTab(tabId)
-	}
-	attachedTab(tabId){
-		console.log("onAttached");
-		console.log(tabId);
-		this.commentView.makeTabSelector();
-	}
-	detachedTab(tabId){
-		console.log("onDettached");
-		console.log(tabId);
-		this.commentView.removeTab(tabId);
-	}
-	updatedTab(tabId){
-		console.log("updatedTab");
-		console.log(tabId);
-*/
