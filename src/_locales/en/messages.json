@@ -4,7 +4,7 @@
 		"description": "Name of the extension."
 	},
 	"extensionDescription": {
-		"message": "閲覧中のタブからURLを取得し、Twitterの検索結果を自動表示します。",
+		"message": "Get the URL from the tab you are viewing and automatically display the search result of Twitter.",
 		"description": "Description of the extension."
 	}
 }
