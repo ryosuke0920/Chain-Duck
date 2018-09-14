@@ -10,3 +10,6 @@ export const PARAMETER_FILTER = [
 		"keys": ["a"]
 	}
 ];
+export const ALLOWED_URL_REGEX = [
+	/^https?:\/\//
+];

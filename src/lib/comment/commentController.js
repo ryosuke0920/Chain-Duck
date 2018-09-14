@@ -32,6 +32,7 @@ export default class commentController extends appController
 		return p.then( this.openOrUpdateWindow.bind(this) ).catch(e=>console.error(e));
 	}
 	openOrUpdateWindow(url){
+		if( !this.model.isAllowedURL(url) ) return;
 		url = this.model.convertURL(url);
 		if(this.view.hasWindow()){
 			return this.view.updateWindow(url).catch(e=>console.error(e));
@@ -56,16 +57,19 @@ export default class commentController extends appController
 	}
 	updateWindow(url){
 		if( !this.view.hasWindow()) return;
+		if( !this.model.isAllowedURL(url) ) return;
 		url = this.model.convertURL(url);
 		if( this.view.isSameURL(url) ) return;
-		return this.view.updateWindow(url).catch(e=>console.error(e));;
+		return this.view.updateWindow(url).catch(e=>console.error(e));
 	}
 	onUpdated(tabId, changeInfo, tab){
 		if( !changeInfo.hasOwnProperty("url") ) return;
 		if( !this.view.hasWindow() ) return;
 		if( this.view.isSameWindow(tab.windowId, tabId) ) return;
-		let url = this.model.convertURL(changeInfo.url);
+		let url = changeInfo.url;
+		if( !this.model.isAllowedURL(url) ) return;
+		url = this.model.convertURL(url);
 		if( this.view.isSameURL(url) ) return;
-		return this.view.updateWindow(url).catch(e=>console.error(e));;
+		return this.view.updateWindow(url).catch(e=>console.error(e));
 	}
 }

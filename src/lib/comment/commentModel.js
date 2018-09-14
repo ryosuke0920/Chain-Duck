@@ -19,6 +19,16 @@ export default class commentModel extends appModel
 		let activeTab = e[0];
 		return activeTab.url;
 	}
+	isAllowedURL(url){
+		let result = true;
+		this.each( C.ALLOWED_URL_REGEX, (regex)=>{
+			if(!url.match(regex)){
+				result = false;
+				return false;
+			}
+		});
+		return result;
+	}
 	convertURL(url){
 		url = new URL(url);
 		if(!url.search) return url.origin + url.pathname;
@@ -40,6 +50,7 @@ export default class commentModel extends appModel
 		return url.origin + url.pathname + "?" + bottom.join("&");
 	}
 	makeLocationURL(url){
-		return C.TWITTER_URL + encodeURIComponent(url);
+		url = C.TWITTER_URL + url;
+		return url;
 	}
 }

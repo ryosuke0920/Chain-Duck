@@ -9,16 +9,16 @@ export default class backgroundController extends appController
 	}
 	init(){
 		browser.browserAction.onClicked.addListener(this.browserActionBehavior.bind(this));
-		this.setCommentConstroller(new commentController());
-		this.getCommentConstroller().init();
+		this.controller = new commentController();
+		this.controller.init();
 	}
 	setCommentConstroller(obj){
-		this.commentController=obj;
+		this.controller=obj;
 	}
 	getCommentConstroller(){
-		return this.commentController;
+		return this.controller;
 	}
 	browserActionBehavior(e){
-		this.getCommentConstroller().openWindow();
+		this.controller.openWindow();
 	}
 }
