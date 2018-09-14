@@ -5,7 +5,7 @@ export default class base
 	}
 	each(list, callback){
 		for( let i=0; i<list.length; i++){
-			callback( list[i], i, list );
+			if( callback(list[i], i, list) == false ) break;
 		}
 	}
 }

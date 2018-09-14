@@ -8,87 +8,64 @@ export default class commentController extends appController
 		super();
 	}
 	init(){
-		this.setCommentModel( new commentModel() );
-		this.getCommentModel().init();
-		this.setCommentView( new commentView() );
-		this.getCommentView().init();
+		this.model = new commentModel();
+		this.model.init();
+		this.view = new commentView();
+		this.view.init( this.model );
+		this.onActivateBinded = this.onActivated.bind(this);
+		this.onUpdatedBinded = this.onUpdated.bind(this)
 	}
-	setCommentModel(obj){
-		this.commentModel = obj;
+	setCommentModel(model){
+		this.model = model;
 	}
-	getCommentModel(obj){
-		return this.commentModel;
+	getCommentModel(){
+		return this.model;
 	}
-	setCommentView(obj){
-		this.commentView = obj;
+	setCommentView(view){
+		this.view = view;
 	}
-	getCommentView(obj){
-		return this.commentView;
+	getCommentView(){
+		return this.view;
 	}
 	openWindow(){
-		console.log("openWindow");
-		let model = this.getCommentModel();
-		let p = model.getActiveURL();
-		return p.then( this.openOrUpdateWindow.bind(this) ).catch( (e)=>{ console.error(e); });
+		let p = this.model.getActiveURL();
+		return p.then( this.openOrUpdateWindow.bind(this) ).catch(e=>console.error(e));
 	}
 	openOrUpdateWindow(url){
-		console.log("openOrUpdateWindow");
-		let view = this.getCommentView();
-		if(view.hasWindow()){
-			return view.updateWindow(url);
+		url = this.model.convertURL(url);
+		if(this.view.hasWindow()){
+			return this.view.updateWindow(url).catch(e=>console.error(e));
 		}
-		return view.openWindow(url).then( this.onOpenedWindow.bind(this) );
+		return this.view.openWindow(url).then( this.onOpenedWindow.bind(this) ).catch(e=>console.error(e));
 	}
 	onOpenedWindow(){
-		console.log("onOpenedWindow");
-		browser.tabs.onActivated.addListener( this.onActivated.bind(this) );
-		browser.tabs.onUpdated.addListener( this.onUpdated.bind(this) );
-		let view = this.getCommentView();
-		view.addOnCloseEventListener( this.onClosedWindow.bind(this) );
+		browser.tabs.onActivated.addListener( this.onActivateBinded );
+		browser.tabs.onUpdated.addListener( this.onUpdatedBinded );
+		this.view.addOnCloseCallback( this.onClosedWindow.bind(this) );
 	}
 	onClosedWindow(){
-		console.log("onClosedWindow");
-		browser.tabs.onActivated.removeListener( this.onActivated.bind(this) );
-		browser.tabs.onUpdated.removeListener( this.onUpdated.bind(this) );
-		let view = this.getCommentView();
-		view.removeOnCloseEventListener( this.onClosedWindow.bind(this) );
-	}
-	onRemovedWindow(windowId){
-		console.log("onRemovedWindow windowId="+windowId);
-		let view = this.getCommentView();
-		return view.removeWindow(windowId);
+		browser.tabs.onActivated.removeListener( this.onActivateBinded );
+		browser.tabs.onUpdated.removeListener( this.onUpdatedBinded );
+		this.view.clearOnCloseCallback();
 	}
 	onActivated(activeInfo){
-		console.log("onActivated");
-		console.log(activeInfo);
-		let view = this.getCommentView();
-		if( !view.hasWindow()) return;
-		if( view.isSameWindow(activeInfo.windowId, activeInfo.tabId) ) return;
-		let model = this.getCommentModel();
-		let p = model.getActiveURL();
-		return p.then( this.updateWindow.bind(this) ).catch( (e)=>{ console.error(e); });
+		if( !this.view.hasWindow()) return;
+		if( this.view.isSameWindow(activeInfo.windowId, activeInfo.tabId) ) return;
+		let p = this.model.getActiveURL();
+		return p.then( this.updateWindow.bind(this) ).catch(e=>console.error(e));
 	}
 	updateWindow(url){
-		console.log("updateWindow");
-		let view = this.getCommentView();
-		if( !view.hasWindow()) return;
-		let model = this.getCommentModel();
-		url = model.convertURL(url);
-		if( view.isSameURL(url) ) return;
-		return view.updateWindow(url);
+		if( !this.view.hasWindow()) return;
+		url = this.model.convertURL(url);
+		if( this.view.isSameURL(url) ) return;
+		return this.view.updateWindow(url).catch(e=>console.error(e));;
 	}
 	onUpdated(tabId, changeInfo, tab){
-		console.log("onUpdated changeInfo.status="+changeInfo.status+", url="+changeInfo.url);
-		//console.log(tabId);
-		//console.log(changeInfo);
-		//console.log(tab);
 		if( !changeInfo.hasOwnProperty("url") ) return;
-		let view = this.getCommentView();
-		if( !view.hasWindow() ) return;
-		if( view.isSameWindow(tab.windowId, tabId) ) return;
-		let model = this.getCommentModel();
-		let url = model.convertURL(changeInfo.url);
-		if( view.isSameURL(url) ) return;
-		return view.updateWindow( model.convertURL(url) );
+		if( !this.view.hasWindow() ) return;
+		if( this.view.isSameWindow(tab.windowId, tabId) ) return;
+		let url = this.model.convertURL(changeInfo.url);
+		if( this.view.isSameURL(url) ) return;
+		return this.view.updateWindow(url).catch(e=>console.error(e));;
 	}
 }

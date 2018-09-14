@@ -7,15 +7,16 @@ export default class commentView extends appView
 	constructor(){
 		super();
 	}
-	init(){
+	init(model){
+		this.model = model;
 		this.onCloseEvent = [];
 		browser.windows.onRemoved.addListener( this.onRemoveWindow.bind(this) ) ;
 	}
-	setCommentModel(obj){
-		this.commentModel = obj;
+	setCommentModel(model){
+		this.model = model;
 	}
 	getCommentModel(){
-		return this.commentModel;
+		return this.model;
 	}
 	setWindow(win){
 		this.window = win;
@@ -33,49 +34,44 @@ export default class commentView extends appView
 		if(tabId != win.tabs[0].id) return false;
 		return true;
 	}
-	setURL(url){
-		this.url = url;
+	setQueryURL(url){
+		this.queryURL = url;
 	}
-	getURL(){
-		return this.url;
+	getQueryURL(){
+		return this.queryURL;
 	}
 	isSameURL(url){
-		return this.getURL() == url;
+		return this.getQueryURL() == url;
 	}
-	addOnCloseEventListener(callback){
+	addOnCloseCallback(callback){
 		this.onCloseEvent.push(callback);
 	}
-	removeOnCloseEventListener(callback){
-		console.log("removeOnCloseEventListener");
-		console.log(this.onCloseEvent);
-		this.onCloseEvent = this.onCloseEvent.filter( (e)=>{ return e != callback} );
-		console.log(this.onCloseEvent);
+	clearOnCloseCallback(){
+		this.onCloseEvent = [];
 	}
 	getOnCloseEventListener(){
 		return this.onCloseEvent;
 	}
 	openWindow(url){
-		url = C.TWITTER_URL + encodeURI(url);
-		console.log(url);
-		this.setURL(url);
+		this.setQueryURL(url);
+		url = this.model.makeLocationURL(url);
 		let p = browser.windows.create({
+			"titlePreface": browser.i18n.getMessage("extensionName") + " - ",
 			"url": url,
-			"type": "popup" /* https://bugzilla.mozilla.org/show_bug.cgi?id=1380184 */
+			"top": C.COMMENT_WINDOW_MARGIN,
+			"left": window.screen.width - C.COMMENT_WINDOW_WIDTH - C.COMMENT_WINDOW_MARGIN,
+			"height": window.screen.height - (C.COMMENT_WINDOW_MARGIN * 2),
+			"width": C.COMMENT_WINDOW_WIDTH
 		});
 		return p.then( this.onOpenWindow.bind(this) );
 	}
 	onOpenWindow(win){
-		console.log(win);
 		this.setWindow(win);
 	}
 	onRemoveWindow(windowId){
-		console.log("onRemoveWindow");
-		console.log(windowId);
 		if( !this.hasWindow() ) return;
 		let win = this.getWindow();
-		console.log(win.id);
 		if( win.id == windowId ){
-			console.log("Set window undefined.");
 			this.setWindow();
 			this.each( this.getOnCloseEventListener(), (callback)=>{
 				callback(windowId);
@@ -83,24 +79,20 @@ export default class commentView extends appView
 		}
 	}
 	updateWindow(url){
-		console.log("updateWindow");
-		url = C.TWITTER_URL + encodeURI(url);
-		this.setURL(url);
-		console.log(url);
+		this.setQueryURL(url);
 		let win = this.getWindow();
-		console.log(win);
 		let p = browser.tabs.query({
 			"windowId": win.id
 		});
 		return p.then( this.onGotTabs.bind(this) );
 	}
 	onGotTabs(tabs){
-		console.log(tabs);
+		let url = this.model.makeLocationURL(this.getQueryURL());
 		let tabId = tabs[0].id;
 		let p = browser.tabs.update(
 			tabId,
-			{ "url": this.getURL() }
+			{ "url": url }
 		);
-		return p.catch( (e)=>{ console.error(e); } );
+		return p;
 	}
 }
