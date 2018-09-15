@@ -1,4 +1,5 @@
 "use strict";
+import * as C from "/etc/const.js";
 import appController from "/lib/app/appController.js";
 import commentModel from "/lib/comment/commentModel.js";
 import commentView from "/lib/comment/commentView.js";
@@ -14,6 +15,7 @@ export default class commentController extends appController
 		this.view.init( this.model );
 		this.onActivateBinded = this.onActivated.bind(this);
 		this.onUpdatedBinded = this.onUpdated.bind(this)
+		this.updateQueue = [];
 	}
 	setCommentModel(model){
 		this.model = model;
@@ -32,10 +34,14 @@ export default class commentController extends appController
 		return p.then( this.openOrUpdateWindow.bind(this) ).catch(e=>console.error(e));
 	}
 	openOrUpdateWindow(url){
-		if( !this.model.isAllowedURL(url) ) return;
-		url = this.model.convertURL(url);
 		if(this.view.hasWindow()){
+			if( !this.model.isAllowedURL(url) ) return;
+			if( this.model.isDeniedURL(url) ) return;
+			url = this.model.convertURL(url);
 			return this.view.updateWindow(url).catch(e=>console.error(e));
+		}
+		if( !this.model.isAllowedURL(url) || this.model.isDeniedURL(url) ) {
+			return this.view.openPlainWindow().then( this.onOpenedWindow.bind(this) ).catch(e=>console.error(e));
 		}
 		return this.view.openWindow(url).then( this.onOpenedWindow.bind(this) ).catch(e=>console.error(e));
 	}
@@ -53,14 +59,29 @@ export default class commentController extends appController
 		if( !this.view.hasWindow()) return;
 		if( this.view.isSameWindow(activeInfo.windowId, activeInfo.tabId) ) return;
 		let p = this.model.getActiveURL();
-		return p.then( this.updateWindow.bind(this) ).catch(e=>console.error(e));
+		return p.then((url)=>{return this.updateWindow(url)}).catch(e=>console.error(e));
 	}
 	updateWindow(url){
-		if( !this.view.hasWindow()) return;
 		if( !this.model.isAllowedURL(url) ) return;
+		if( this.model.isDeniedURL(url) ) return;
 		url = this.model.convertURL(url);
-		if( this.view.isSameURL(url) ) return;
-		return this.view.updateWindow(url).catch(e=>console.error(e));
+		return this.queueUpdateWindow(url);
+	}
+	queueUpdateWindow(url){
+		return new Promise((resolve, reject)=>{
+			this.addUpdateQueue();
+			setTimeout(()=>{
+				this.removeUpdateQueue();
+				if( !this.view.hasWindow()) return;
+				if( this.view.isSameURL(url) ) return;
+				if(this.hasUpdateQueue()){
+					resolve();
+					return;
+				}
+				this.view.updateWindow(url).then(resolve, reject);
+			}, C.UPDATE_WAIT_TIME);
+		});
+
 	}
 	onUpdated(tabId, changeInfo, tab){
 		if( !changeInfo.hasOwnProperty("url") ) return;
@@ -68,8 +89,17 @@ export default class commentController extends appController
 		if( this.view.isSameWindow(tab.windowId, tabId) ) return;
 		let url = changeInfo.url;
 		if( !this.model.isAllowedURL(url) ) return;
+		if( this.model.isDeniedURL(url) ) return;
 		url = this.model.convertURL(url);
-		if( this.view.isSameURL(url) ) return;
-		return this.view.updateWindow(url).catch(e=>console.error(e));
+		return this.queueUpdateWindow(url).catch(e=>console.error(e));
+	}
+	hasUpdateQueue(){
+		return 0 < this.updateQueue.length;
+	}
+	addUpdateQueue(){
+		this.updateQueue.push(1);
+	}
+	removeUpdateQueue(){
+		this.updateQueue.shift();
 	}
 }

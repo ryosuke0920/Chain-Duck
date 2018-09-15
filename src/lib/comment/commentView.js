@@ -52,18 +52,31 @@ export default class commentView extends appView
 	getOnCloseEventListener(){
 		return this.onCloseEvent;
 	}
+	openPlainWindow(){
+		let url = browser.runtime.getURL("/html/plain.html");
+		this.setQueryURL(url);
+		let options = this.makeWindowOption();
+		options.url = url;
+		let p = browser.windows.create(options);
+		return p.then( this.onOpenWindow.bind(this) );
+	}
 	openWindow(url){
 		this.setQueryURL(url);
 		url = this.model.makeLocationURL(url);
-		let p = browser.windows.create({
+		let options = this.makeWindowOption();
+		options.url = url;
+		let p = browser.windows.create(options);
+		return p.then( this.onOpenWindow.bind(this) );
+	}
+	makeWindowOption(){
+		return {
+			"type": "popup",
 			"titlePreface": browser.i18n.getMessage("extensionName") + " - ",
-			"url": url,
 			"top": C.COMMENT_WINDOW_MARGIN,
 			"left": window.screen.width - C.COMMENT_WINDOW_WIDTH - C.COMMENT_WINDOW_MARGIN,
 			"height": window.screen.height - (C.COMMENT_WINDOW_MARGIN * 2),
 			"width": C.COMMENT_WINDOW_WIDTH
-		});
-		return p.then( this.onOpenWindow.bind(this) );
+		};
 	}
 	onOpenWindow(win){
 		this.setWindow(win);
@@ -89,10 +102,6 @@ export default class commentView extends appView
 	onGotTabs(tabs){
 		let url = this.model.makeLocationURL(this.getQueryURL());
 		let tabId = tabs[0].id;
-		let p = browser.tabs.update(
-			tabId,
-			{ "url": url }
-		);
-		return p;
+		return browser.tabs.update(tabId, {"url": url});
 	}
 }

@@ -29,6 +29,16 @@ export default class commentModel extends appModel
 		});
 		return result;
 	}
+	isDeniedURL(url){
+		let result = false;
+		this.each( C.DENIED_URL_REGEX, (regex)=>{
+			if(url.match(regex)){
+				result = true;
+				return false;
+			}
+		});
+		return result;
+	}
 	convertURL(url){
 		url = new URL(url);
 		if(!url.search) return url.origin + url.pathname;
