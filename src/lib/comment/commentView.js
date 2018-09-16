@@ -91,6 +91,10 @@ export default class commentView extends appView
 			});
 		}
 	}
+	foregroundWindow(){
+		let win = this.getWindow();
+		return browser.windows.update(win.id, {"focused": true});
+	}
 	updateWindow(url){
 		this.setQueryURL(url);
 		let win = this.getWindow();

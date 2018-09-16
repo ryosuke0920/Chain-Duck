@@ -35,10 +35,11 @@ export default class commentController extends appController
 	}
 	openOrUpdateWindow(url){
 		if(this.view.hasWindow()){
+			let p = this.view.foregroundWindow();
 			if( !this.model.isAllowedURL(url) ) return;
 			if( this.model.isDeniedURL(url) ) return;
 			url = this.model.convertURL(url);
-			return this.view.updateWindow(url).catch(e=>console.error(e));
+			return p.then( ()=>{ return this.view.updateWindow(url)} ).catch(e=>console.error(e));
 		}
 		if( !this.model.isAllowedURL(url) || this.model.isDeniedURL(url) ) {
 			return this.view.openPlainWindow().then( this.onOpenedWindow.bind(this) ).catch(e=>console.error(e));
