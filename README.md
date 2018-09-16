@@ -1,6 +1,6 @@
 # Chain window
 ## Summary
-Get the URL from the tab you are viewing and automatically display the search result of Twitter.  
+Retrieve the URL of the web site you are viewing, and display the search result of Twitter. If the site you are viewing changes, it follows it. 
 Because it makes it easier to view comments from third parties, you can expect merit such as being aware of mass media fake news.  
 
 ## Release note
