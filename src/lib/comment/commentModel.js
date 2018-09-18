@@ -39,6 +39,10 @@ export default class commentModel extends appModel
 		});
 		return result;
 	}
+	isPermittedURL(url){
+		if(this.isAllowedURL(url) && !this.isDeniedURL(url)) return true;
+		return false;
+	}
 	convertURL(url){
 		url = new URL(url);
 		if(!url.search) return url.origin + url.pathname;

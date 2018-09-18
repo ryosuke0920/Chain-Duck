@@ -36,15 +36,15 @@ export default class commentController extends appController
 	openOrUpdateWindow(url){
 		if(this.view.hasWindow()){
 			let p = this.view.foregroundWindow();
-			if( !this.model.isAllowedURL(url) ) return;
-			if( this.model.isDeniedURL(url) ) return;
+			if(!this.model.isPermittedURL(url)) return;
 			url = this.model.convertURL(url);
 			return p.then( ()=>{ return this.view.updateWindow(url)} ).catch(e=>console.error(e));
 		}
-		if( !this.model.isAllowedURL(url) || this.model.isDeniedURL(url) ) {
-			return this.view.openPlainWindow().then( this.onOpenedWindow.bind(this) ).catch(e=>console.error(e));
+		if(this.model.isPermittedURL(url)) {
+			url = this.model.convertURL(url);
+			return this.view.openWindow(url).then( this.onOpenedWindow.bind(this) ).catch(e=>console.error(e));
 		}
-		return this.view.openWindow(url).then( this.onOpenedWindow.bind(this) ).catch(e=>console.error(e));
+		return this.view.openPlainWindow().then( this.onOpenedWindow.bind(this) ).catch(e=>console.error(e));
 	}
 	onOpenedWindow(){
 		browser.tabs.onActivated.addListener( this.onActivateBinded );
@@ -63,8 +63,7 @@ export default class commentController extends appController
 		return p.then((url)=>{return this.updateWindow(url)}).catch(e=>console.error(e));
 	}
 	updateWindow(url){
-		if( !this.model.isAllowedURL(url) ) return;
-		if( this.model.isDeniedURL(url) ) return;
+		if(!this.model.isPermittedURL(url)) return;
 		url = this.model.convertURL(url);
 		return this.queueUpdateWindow(url);
 	}
@@ -89,10 +88,14 @@ export default class commentController extends appController
 		if( !this.view.hasWindow() ) return;
 		if( this.view.isSameWindow(tab.windowId, tabId) ) return;
 		let url = changeInfo.url;
-		if( !this.model.isAllowedURL(url) ) return;
-		if( this.model.isDeniedURL(url) ) return;
+		if(!this.model.isPermittedURL(url)) return;
 		url = this.model.convertURL(url);
-		return this.queueUpdateWindow(url).catch(e=>console.error(e));
+		if( !tab.active ) return;
+		return browser.windows.get(tab.windowId).then( (win)=>{return this.onGotWindowOnUpdated(win,url)} ).catch(e=>console.error(e));
+	}
+	onGotWindowOnUpdated(win){
+		if(!win.forcused) return;
+		return this.queueUpdateWindow(url);
 	}
 	hasUpdateQueue(){
 		return 0 < this.updateQueue.length;
