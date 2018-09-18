@@ -1,10 +1,19 @@
 {
 	"extensionName": {
-		"message": "Chain window",
+		"message": "Chain Window",
 		"description": "Name of the extension."
 	},
 	"extensionDescription": {
 		"message": "閲覧中のタブからURLを取得し、Twitterの検索結果を自動表示します。",
 		"description": "Description of the extension."
+	},
+	"description1": {
+		"message": "アクティブなタブのURLを取得して、Twitterの検索結果を表示します。"
+	},
+	"description2": {
+		"message": "設定画面やホーム画面は追従しません。"
+	},
+	"description3": {
+		"message": "主要な検索サイトの検索画面は追従しません。"
 	}
 }

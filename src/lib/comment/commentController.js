@@ -93,8 +93,8 @@ export default class commentController extends appController
 		if( !tab.active ) return;
 		return browser.windows.get(tab.windowId).then( (win)=>{return this.onGotWindowOnUpdated(win,url)} ).catch(e=>console.error(e));
 	}
-	onGotWindowOnUpdated(win){
-		if(!win.forcused) return;
+	onGotWindowOnUpdated(win,url){
+		if(!win.focused) return;
 		return this.queueUpdateWindow(url);
 	}
 	hasUpdateQueue(){

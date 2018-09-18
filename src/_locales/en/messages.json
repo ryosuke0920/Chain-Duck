@@ -1,10 +1,19 @@
 {
 	"extensionName": {
-		"message": "Chain window",
+		"message": "Chain Window",
 		"description": "Name of the extension."
 	},
 	"extensionDescription": {
 		"message": "Get the URL from the tab you are viewing and automatically display the search result of Twitter.",
 		"description": "Description of the extension."
+	},
+	"description1": {
+		"message": "Retrieve the URL of the active tab, and display the search result of Twitter."
+	},
+	"description2": {
+		"message": "It does not follow the setting screen or home screen."
+	},
+	"description3": {
+		"message": "It does not follow search screen of major search sites."
 	}
 }
