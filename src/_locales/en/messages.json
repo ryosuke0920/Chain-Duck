@@ -8,12 +8,6 @@
 		"description": "Description of the extension."
 	},
 	"description1": {
-		"message": "Retrieve the URL of the active tab, and display the search result of Twitter."
-	},
-	"description2": {
-		"message": "It does not follow the setting screen or home screen."
-	},
-	"description3": {
-		"message": "It does not follow search screen of major search sites."
+		"message": "Retrieve the URL of the active tab, and display the search result of Twitter. It detects the change and update of the tab. It does not follow the setting screen, home screen, search screen of major search sites."
 	}
 }
