@@ -25,17 +25,17 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="7.9999996"
-     inkscape:cx="42.196608"
+     inkscape:zoom="4.59"
+     inkscape:cx="58.653224"
      inkscape:cy="61.262262"
      inkscape:document-units="px"
-     inkscape:current-layer="layer6"
+     inkscape:current-layer="layer4"
      showgrid="true"
-     inkscape:window-width="2560"
+     inkscape:window-width="1755"
      inkscape:window-height="1385"
-     inkscape:window-x="0"
+     inkscape:window-x="805"
      inkscape:window-y="27"
-     inkscape:window-maximized="1"
+     inkscape:window-maximized="0"
      units="px"
      showguides="true">
     <inkscape:grid
@@ -58,15 +58,14 @@
      inkscape:groupmode="layer"
      id="layer2"
      inkscape:label="親体"
-     style="display:inline"
-     sodipodi:insensitive="true">
+     style="display:inline">
     <path
        style="opacity:0;fill:#cccccc;stroke-width:0.12599204"
        d="M 0.04666428,16.885964 V 0.00302489 H 16.929598 33.812534 V 16.885964 33.768904 H 16.929598 0.04666428 Z"
        id="path3735"
        inkscape:connector-curvature="0" />
     <rect
-       style="opacity:1;fill:#0000ff;fill-opacity:1;stroke:none;stroke-width:0.67822605"
+       style="opacity:1;fill:#7ea0ff;fill-opacity:1;stroke:none;stroke-width:0.67822605"
        id="rect4836"
        width="27.516666"
        height="33.866669"
@@ -79,8 +78,7 @@
      inkscape:groupmode="layer"
      id="layer5"
      inkscape:label="親目"
-     style="display:inline"
-     sodipodi:insensitive="true">
+     style="display:inline">
     <circle
        style="display:inline;opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.2645832"
        id="path4870-5-6"
@@ -92,10 +90,9 @@
      inkscape:groupmode="layer"
      id="layer7"
      inkscape:label="親口"
-     style="display:inline"
-     sodipodi:insensitive="true">
+     style="display:inline">
     <rect
-       style="display:inline;opacity:1;fill:#0000ff;fill-opacity:1;stroke:none;stroke-width:0.39753556"
+       style="display:inline;opacity:1;fill:#7ea0ff;fill-opacity:1;stroke:none;stroke-width:0.39753556"
        id="rect4905"
        width="10.583333"
        height="6.3499999"
@@ -108,8 +105,7 @@
      inkscape:groupmode="layer"
      id="layer3"
      inkscape:label="子体"
-     style="display:inline"
-     sodipodi:insensitive="true">
+     style="display:inline">
     <rect
        style="display:inline;opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.42323869"
        id="rect4836-3"
@@ -124,10 +120,9 @@
      inkscape:groupmode="layer"
      id="layer4"
      inkscape:label="子目"
-     style="display:inline"
-     sodipodi:insensitive="true">
+     style="display:inline">
     <circle
-       style="display:inline;opacity:1;fill:#0000ff;fill-opacity:1;stroke:none;stroke-width:0.26458323"
+       style="display:inline;opacity:1;fill:#7ea0ff;fill-opacity:1;stroke:none;stroke-width:0.26458323"
        id="path4870-5"
        cx="14.816667"
        cy="19.049999"
@@ -137,8 +132,7 @@
      inkscape:groupmode="layer"
      id="layer6"
      inkscape:label="子口"
-     style="display:inline"
-     sodipodi:insensitive="true">
+     style="display:inline">
     <rect
        style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.43475473"
        id="rect4905-2"
