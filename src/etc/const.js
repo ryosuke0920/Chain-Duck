@@ -37,3 +37,4 @@ export const DENIED_URL_REGEX = [
 	/^https?:\/\/news\.yandex\.com\/yandsearch\/?\?/
 ];
 export const UPDATE_WAIT_TIME = 1000;
+export const BLANK_URL = "about:blank";

@@ -53,7 +53,7 @@ export default class commentView extends appView
 		return this.onCloseEvent;
 	}
 	openPlainWindow(){
-		let url = browser.runtime.getURL("/html/plain.html");
+		let url = C.BLANK_URL;
 		this.setQueryURL(url);
 		let options = this.makeWindowOption();
 		options.url = url;
