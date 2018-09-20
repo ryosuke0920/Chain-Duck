@@ -1,4 +1,4 @@
-# Chain window
+# Chain Duck
 Retrieve the URL of the active tab, and display the search result of Twitter. It would be easy to collect third party opinions.
 
 # Description

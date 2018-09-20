@@ -1,4 +1,4 @@
-# Chain window
+# Chain Duck
 アクティブなタブのURLを取得して、Twitterの検索結果を表示します。第三者の意見を収集しやすくなります。
 
 # 説明
