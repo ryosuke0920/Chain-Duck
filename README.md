@@ -1,7 +1,7 @@
 # Chain window
 Retrieve the URL of the active tab, and display the search result of Twitter. It would be easy to collect third party opinions.
 
-# Summary
+# Description
 * Push the icon, it opens the popup window.
 * Retrieve the URL of the active tab, and display the search result of Twitter.
 * There are exceptions by domain, but as a rule delete the get parameter of the URL and search it.
