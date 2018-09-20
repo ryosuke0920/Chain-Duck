@@ -1,14 +1,16 @@
 # Chain window
-## Summary
-Retrieve the URL of the active tab, and display the search result of Twitter. If the site you are viewing changes, it follows it.
+Retrieve the URL of the active tab, and display the search result of Twitter. It would be easy to collect third party opinions.
 
-## Release note
-https://github.com/ryosuke0920/Search-Dictionary-Faster/releases  
+# Summary
+Retrieve the URL of the active tab, and display the search result of Twitter. It detects the change and update of the tab. It does not follow the setting screen, home screen, search screen of major search sites.
 
-## Contact
+# Release note
+https://github.com/ryosuke0920/ChainWindow/releases
+
+# Contact
 ryosuke.ohta.programmer@gmail.com  
 Freelance programmer Ryosuke Ohta
 
-## License
+# License
 This software is released under the MIT License.  
 https://opensource.org/licenses/MIT

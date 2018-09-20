@@ -4,10 +4,7 @@
 		"description": "Name of the extension."
 	},
 	"extensionDescription": {
-		"message": "閲覧中のタブからURLを取得し、Twitterの検索結果を自動表示します。",
+		"message": "アクティブなタブのURLを取得して、Twitterの検索結果を表示します。",
 		"description": "Description of the extension."
-	},
-	"description1": {
-		"message": "アクティブなタブのURLを取得して、Twitterの検索結果を表示します。タブの変更や更新に追従して検索結果を表示します。設定画面、ホーム画面、主要な検索サイトの検索画面は追従しません。"
 	}
 }

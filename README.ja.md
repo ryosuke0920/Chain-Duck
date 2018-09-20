@@ -1,14 +1,16 @@
 # Chain window
-## 概要
-アクティブなタブのURLを取得して、Twitterの検索結果を表示します。閲覧しているサイトが切り替わればそれに追従します。
+アクティブなタブのURLを取得して、Twitterの検索結果を表示します。第三者の意見を収集しやすくなります。
 
-## リースノート
-https://github.com/ryosuke0920/Search-Dictionary-Faster/releases  
+# 説明
+アイコンを押すと専用のポップアップウィンドウが開きます。タブの変更や更新に追従して検索結果も更新されます。設定画面、ホーム画面、主要な検索サイトの検索画面は追従しません。
 
-## お問い合わせ
+# リースノート
+https://github.com/ryosuke0920/ChainWindow/releases
+
+# お問い合わせ
 ryosuke.ohta.programmer@gmail.com  
 フリーランス プログラマ 太田亮介  
 
-## ライセンス
+# ライセンス
 このソフトウェアはMITライセンスの下で公開されています。  
 https://opensource.org/licenses/MIT  
