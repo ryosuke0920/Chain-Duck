@@ -13,7 +13,7 @@ https://github.com/ryosuke0920/ChainWindow/releases
 
 # お問い合わせ
 ryosuke.ohta.programmer@gmail.com  
-フリーランス プログラマ 太田亮介  
+太田亮介  
 
 # ライセンス
 このソフトウェアはMITライセンスの下で公開されています。  

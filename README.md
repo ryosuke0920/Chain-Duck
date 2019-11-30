@@ -13,7 +13,7 @@ https://github.com/ryosuke0920/ChainWindow/releases
 
 # Contact
 ryosuke.ohta.programmer@gmail.com  
-Freelance programmer Ryosuke Ohta
+Ryosuke Ohta
 
 # License
 This software is released under the MIT License.  
